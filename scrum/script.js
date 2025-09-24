@@ -170,16 +170,21 @@
       return words.join(" ");
     }
 
-    let finalTranscript = "";
+    let finalTranscript = ""; // store only final text
+    let lastFinalChunk = ""; // track last final result
 
     recognition.onresult = (event) => {
       let interimTranscript = "";
 
       for (let i = event.resultIndex; i < event.results.length; i++) {
-        let transcript = addPunctuation(event.results[i][0].transcript);
+        let transcript = addPunctuation(event.results[i][0].transcript).trim();
 
         if (event.results[i].isFinal) {
-          finalTranscript += transcript + " ";
+          // ✅ skip duplicate final chunks
+          if (transcript !== lastFinalChunk) {
+            finalTranscript += transcript + " ";
+            lastFinalChunk = transcript;
+          }
         } else {
           interimTranscript += transcript;
         }
