@@ -148,6 +148,7 @@
   });
 
   // --- Recognition setup ---
+  // --- Recognition setup ---
   if ("webkitSpeechRecognition" in window || "SpeechRecognition" in window) {
     recognition = new (window.SpeechRecognition ||
       window.webkitSpeechRecognition)();
@@ -155,44 +156,44 @@
     recognition.interimResults = true;
 
     function addPunctuation(transcript) {
-      // Split transcript into words
       let words = transcript.split(/\s+/);
 
-      // Replace only if the word is *alone*
       words = words.map((word) => {
         const lower = word.toLowerCase();
         if (lower === "comma") return ",";
         if (lower === "period" || lower === "fullstop") return ".";
         if (lower === "exclamation" || lower === "exclamationmark") return "!";
         if (lower === "question" || lower === "questionmark") return "?";
-        return word; // keep original
+        return word;
       });
 
-      // Join words back into sentence
       return words.join(" ");
     }
 
-    let lastTranscript = ""; // to track previous result
+    let finalTranscript = "";
 
-    recognition.onresult = (e) => {
-      let finalTranscript = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        if (e.results[i].isFinal) {
-          finalTranscript += e.results[i][0].transcript.trim() + " ";
+    recognition.onresult = (event) => {
+      let interimTranscript = "";
+
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        let transcript = addPunctuation(event.results[i][0].transcript);
+
+        if (event.results[i].isFinal) {
+          finalTranscript += transcript + " ";
+        } else {
+          interimTranscript += transcript;
         }
       }
 
-      // Prevent duplicates
-      if (finalTranscript && finalTranscript !== lastTranscript) {
-        TextArea.value += finalTranscript;
-        lastTranscript = finalTranscript;
-      }
+      TextArea.value = finalTranscript + interimTranscript;
     };
 
-    // If recognition ends by itself, restart when _listening is true (keeps it continuous)
+    recognition.onerror = (e) => {
+      console.error("Recognition error:", e);
+    };
+
     recognition.onend = () => {
       if (recognition._listening) {
-        // small delay before restarting (avoid rapid restart loops)
         setTimeout(() => {
           try {
             recognition.start();
@@ -216,7 +217,7 @@
       }
       TextArea.style.pointerEvents = "none";
       TextArea.style.border = "4px solid green";
-      setTTSLocked(true); // disable TTS buttons while listening
+      setTTSLocked(true);
     });
 
     stopRecBtn.addEventListener("click", () => {
@@ -229,10 +230,9 @@
       } catch (err) {}
       TextArea.style.pointerEvents = "";
       TextArea.style.border = "";
-      setTTSLocked(false); // re-enable TTS buttons
+      setTTSLocked(false);
     });
   } else {
-    // Browser doesn't support recognition
     startRecBtn.disabled = stopRecBtn.disabled = true;
   }
 })();
