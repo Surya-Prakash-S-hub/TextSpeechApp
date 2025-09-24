@@ -11,7 +11,7 @@
 
 <body>
     <nav>
-        <h1>Txt-Speech & Speech-Txt</h1>
+        <h1>TxT-Speech & Speech-TxT</h1>
     </nav>
 
     <main>
@@ -19,10 +19,11 @@
             <h2>NEW APPLICATIONS FOR TXT TO SPEECH AND SPEECH TO TEXT RECOGNITION</h2>
             <div class="visualScreen">
                 <textarea name="textValue" id="text" placeholder="Please speack in the mic or type here..."></textarea>
-                <div class="clearScreen"><button class="clearBtn" id="ClearValue">clear</button></div>
+                <div class="clearScreen"> <div id="whatHappen"></div> <button class="clearBtn" id="ClearValue">clear</button></div>
             </div>
             <div class="methods">
                 <div class="speechToText SelectMethod">
+                    <h4>Speech to Text</h4>
                     <select id="langSelect">
                         <option value="en-US">English</option>
                         <option value="fr-FR">French</option>
@@ -39,6 +40,7 @@
                     <div class="iconForSpeech"></div>
                 </div>
                 <div class="textToSpeech SelectMethod">
+                    <h4>Text to Speech</h4>
                     <select name="voice" id="voicesettings"></select>
                     <select id="langsettings">
                         <option value="en-US">English</option>

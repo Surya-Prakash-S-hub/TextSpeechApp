@@ -6,11 +6,13 @@
   const TextArea = document.getElementById("text");
 
   const ClearText = document.getElementById("ClearValue");
+  const WhatsHappening = document.getElementById('whatHappen')
   const startSpeechBtn = document.getElementById("startSpeech");
   const pauseSpeechBtn = document.getElementById("pauseSpeech");
   const stopSpeechBtn = document.getElementById("stopSpeech");
   const startRecBtn = document.getElementById("startRec");
   const stopRecBtn = document.getElementById("stopRec");
+  WhatsHappening.textContent = '';
 
   if (ClearText) {
     ClearText.onclick = () => (TextArea.value = "");
@@ -27,8 +29,15 @@
 
     // if it's stopRec or stopSpeech, remove after 200ms
     if (isStopBtn) {
-      setTimeout(() => btn.classList.remove("activeBtn"), 1700);
+      setTimeout(() => btn.classList.remove("activeBtn"), 800);
     }
+  }
+  //ScreenPlayer: add points of what is happening
+  function setHappening(content, color){
+    WhatsHappening.textContent = content;
+    WhatsHappening.style.border = `4px solid ${color}`;
+    WhatsHappening.style.padding = '8px';
+    WhatsHappening.style.borderLeft = `7px solid ${color}`;
   }
 
   let currentUtterance = null;
@@ -61,10 +70,12 @@
   // TTS: Start / Pause / Stop
   startSpeechBtn.addEventListener("click", () => {
     setActive(startSpeechBtn);
+    setHappening('Speaking','royalblue');
     const text = TextArea.value.trim();
     if (!text) {
       alert("Empty box can't speak anything");
       startSpeechBtn.classList.remove("activeBtn");
+      setHappening('','transparent');
       return;
     }
 
@@ -94,10 +105,11 @@
     // UI lock while speaking
     utter.onstart = () => {
       TextArea.style.pointerEvents = "none";
-      TextArea.style.border = "2px solid red";
+      TextArea.style.border = "4px solid red";
     };
     utter.onend = () => {
       setActive(startSpeechBtn, true);
+      setHappening('','transparent');
       TextArea.style.pointerEvents = "";
       TextArea.style.border = "";
       currentUtterance = null;
@@ -117,6 +129,7 @@
     if (synth.speaking && !synth.paused) {
       //Only activate when actually pausing
       setActive(pauseSpeechBtn);
+      setHappening('Paused','darkgray');
       synth.pause();
     } else {
       pauseSpeechBtn.classList.remove("activeBtn");
@@ -125,6 +138,7 @@
 
   stopSpeechBtn.addEventListener("click", () => {
     setActive(stopSpeechBtn, true);
+    setHappening('','transparent');
     if (synth.speaking) {
       synth.cancel();
       currentUtterance = null;
@@ -148,7 +162,7 @@
       words = words.map((word) => {
         const lower = word.toLowerCase();
         if (lower === "comma") return ",";
-        if (lower === "period" || lower === "full" || lower === "stop")
+        if (lower === "period" || lower === "fullstop")
           return ".";
         if (lower === "exclamation" || lower === "exclamationmark") return "!";
         if (lower === "question" || lower === "questionmark") return "?";
@@ -192,6 +206,7 @@
     // Buttons
     startRecBtn.addEventListener("click", () => {
       setActive(startRecBtn);
+      setHappening('Listening', 'green');
       recognition.lang = recogLangSelect.value || "en-US";
       recognition._listening = true;
       try {
@@ -200,12 +215,14 @@
         /* already started */
       }
       TextArea.style.pointerEvents = "none";
-      TextArea.style.border = "2px solid green";
+      TextArea.style.border = "4px solid green";
       setTTSLocked(true); // disable TTS buttons while listening
     });
 
     stopRecBtn.addEventListener("click", () => {
       setActive(stopRecBtn, true);
+      setHappening('','transparent');
+      WhatsHappening.textContent = '';
       recognition._listening = false;
       try {
         recognition.stop();
