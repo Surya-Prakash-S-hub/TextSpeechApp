@@ -6,13 +6,13 @@
   const TextArea = document.getElementById("text");
 
   const ClearText = document.getElementById("ClearValue");
-  const WhatsHappening = document.getElementById('whatHappen')
+  const WhatsHappening = document.getElementById("whatHappen");
   const startSpeechBtn = document.getElementById("startSpeech");
   const pauseSpeechBtn = document.getElementById("pauseSpeech");
   const stopSpeechBtn = document.getElementById("stopSpeech");
   const startRecBtn = document.getElementById("startRec");
   const stopRecBtn = document.getElementById("stopRec");
-  WhatsHappening.textContent = '';
+  WhatsHappening.textContent = "";
 
   if (ClearText) {
     ClearText.onclick = () => (TextArea.value = "");
@@ -33,10 +33,10 @@
     }
   }
   //ScreenPlayer: add points of what is happening
-  function setHappening(content, color){
+  function setHappening(content, color) {
     WhatsHappening.textContent = content;
     WhatsHappening.style.border = `4px solid ${color}`;
-    WhatsHappening.style.padding = '8px';
+    WhatsHappening.style.padding = "8px";
     WhatsHappening.style.borderLeft = `7px solid ${color}`;
   }
 
@@ -70,12 +70,12 @@
   // TTS: Start / Pause / Stop
   startSpeechBtn.addEventListener("click", () => {
     setActive(startSpeechBtn);
-    setHappening('Speaking','royalblue');
+    setHappening("Speaking", "royalblue");
     const text = TextArea.value.trim();
     if (!text) {
       alert("Empty box can't speak anything");
       startSpeechBtn.classList.remove("activeBtn");
-      setHappening('','transparent');
+      setHappening("", "transparent");
       return;
     }
 
@@ -109,7 +109,7 @@
     };
     utter.onend = () => {
       setActive(startSpeechBtn, true);
-      setHappening('','transparent');
+      setHappening("", "transparent");
       TextArea.style.pointerEvents = "";
       TextArea.style.border = "";
       currentUtterance = null;
@@ -129,7 +129,7 @@
     if (synth.speaking && !synth.paused) {
       //Only activate when actually pausing
       setActive(pauseSpeechBtn);
-      setHappening('Paused','darkgray');
+      setHappening("Paused", "darkgray");
       synth.pause();
     } else {
       pauseSpeechBtn.classList.remove("activeBtn");
@@ -138,7 +138,7 @@
 
   stopSpeechBtn.addEventListener("click", () => {
     setActive(stopSpeechBtn, true);
-    setHappening('','transparent');
+    setHappening("", "transparent");
     if (synth.speaking) {
       synth.cancel();
       currentUtterance = null;
@@ -162,8 +162,7 @@
       words = words.map((word) => {
         const lower = word.toLowerCase();
         if (lower === "comma") return ",";
-        if (lower === "period" || lower === "fullstop")
-          return ".";
+        if (lower === "period" || lower === "fullstop") return ".";
         if (lower === "exclamation" || lower === "exclamationmark") return "!";
         if (lower === "question" || lower === "questionmark") return "?";
         return word; // keep original
@@ -173,19 +172,20 @@
       return words.join(" ");
     }
 
+    let lastTranscript = ""; // to track previous result
+
     recognition.onresult = (e) => {
-      let transcript = "";
+      let finalTranscript = "";
       for (let i = e.resultIndex; i < e.results.length; i++) {
         if (e.results[i].isFinal) {
-          transcript += e.results[i][0].transcript.trim() + " ";
+          finalTranscript += e.results[i][0].transcript.trim() + " ";
         }
       }
 
-      if (transcript) {
-        transcript = addPunctuation(transcript);
-        // Capitalize first letter of sentence
-        transcript = transcript.charAt(0).toUpperCase() + transcript.slice(1);
-        TextArea.value += transcript + " ";
+      // Prevent duplicates
+      if (finalTranscript && finalTranscript !== lastTranscript) {
+        TextArea.value += finalTranscript;
+        lastTranscript = finalTranscript;
       }
     };
 
@@ -206,7 +206,7 @@
     // Buttons
     startRecBtn.addEventListener("click", () => {
       setActive(startRecBtn);
-      setHappening('Listening', 'green');
+      setHappening("Listening", "green");
       recognition.lang = recogLangSelect.value || "en-US";
       recognition._listening = true;
       try {
@@ -221,8 +221,8 @@
 
     stopRecBtn.addEventListener("click", () => {
       setActive(stopRecBtn, true);
-      setHappening('','transparent');
-      WhatsHappening.textContent = '';
+      setHappening("", "transparent");
+      WhatsHappening.textContent = "";
       recognition._listening = false;
       try {
         recognition.stop();
