@@ -1,0 +1,220 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  border: 1px solid black;
+  font-family: "Roboto", Arial, sans-serif;
+  background-color: #afcccc;
+  background-image: url("https://www.transparenttextures.com/patterns/cartographer.png");
+  /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+}
+nav {
+  width: 100%;
+  padding: 1rem;
+  display: block;
+  background: linear-gradient(90deg, #11998e, #38ef7d);
+  color: white;
+
+}
+nav h1 {
+  font-size: 1.8em;
+  letter-spacing: 0.8px;
+}
+main {
+  width: 100%;
+  max-width: 100%;
+  height: 88.3vh;
+  overflow-x: auto;
+}
+main h2 {
+  margin: 1rem 0;
+  display: block;
+  text-align: center;
+}
+.wrapper {
+  width: 1000px;
+  max-width: 1000px;
+  padding: 1rem;
+  margin: 20px auto;
+   background: rgba(255, 255, 255, 0.9); /* semi-transparent white */
+   border-radius: 13px;
+}
+.visualScreen textarea {
+  width: 100%;
+  height: 300px;
+  resize: vertical;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  font-size: x-large;
+  overflow: hidden;
+  background-color: #f1f1f1;
+  background-image: url("https://www.transparenttextures.com/patterns/climpek.png");
+}
+.clearScreen {
+  width: 100%;
+  height: auto;
+  text-align: end;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.2rem 0.5rem;
+}
+.clearBtn {
+  width: fit-content;
+  height: fit-content;
+  font-size: medium;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  margin: 2px 0;
+  border-radius: 10px;
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.2));
+  cursor: auto;
+  color: black;
+  padding: 7px 12px;
+  -webkit-text-stroke-color: transparent;
+  -webkit-text-stroke-width: 0px;
+}
+.clearBtn:hover {
+  filter: drop-shadow(0px 0px 2px rgba(0, 0, 0, 0.4));
+}
+.methods {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.SelectMethod {
+  flex: 1;
+  padding: 1rem;
+  width: 100%;
+}
+select {
+  width: 100%;
+  padding: 0.7rem;
+  font-size: large;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  border: 2px solid rgba(0, 0, 255, 0.301);
+  outline: none;
+}
+option {
+  border-radius: 8px;
+  overflow: hidden;
+}
+.btnSelection
+{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: none;
+  position: relative;
+  color: rgb(226, 226, 226);
+  cursor: pointer;
+  float: left;
+  margin: 0 0.6rem;
+  -webkit-text-stroke-color: black;
+  -webkit-text-stroke-width: 2px;
+}
+button span {
+  font-size: 2em;
+  transform: translateY(3px);
+  display: inline-block;
+}
+button#startRec,
+button#stopRec,
+button#startSpeech,
+button#pauseSpeech,
+button#stopSpeech {
+  background-color: rgba(var(--bgclr), 0.5);
+}
+button:hover {
+  box-shadow: 0px 0px 3px var(--bgclr);
+}
+button.activeBtn {
+  border: 2px solid black;
+}
+button.activeBtn span {
+  color: #222;
+}
+footer
+{
+  background: #2c5364;
+  color: #fff;
+  text-align: center;
+  padding: 12px 0;
+  font-size: 14px;
+  border-top: 2px solid #1f2f3a; 
+}
+@media screen and (max-width:1030px) {
+  main {
+    padding: 1rem;
+  }
+  .wrapper
+  {
+    max-width: 100%;
+  }
+  .wrapper h2 
+  {
+    font-size: larger;
+  }
+}
+@media screen and (max-width:670px) {
+  .wrapper
+  {
+    margin: 10px auto;
+  }
+  .wrapper h2 
+  {
+    font-size: large;
+  }
+  .methods
+  {
+    flex-direction: column;
+  }
+  .visualScreen textarea 
+  {
+    height: 250px;
+  }
+  .btnSelection
+  {
+    justify-content: center;
+  }
+}
+@media screen and (max-width:450px) {
+  .wrapper
+  {
+    margin: 10px auto;
+  }
+  .wrapper h2 
+  {
+    font-size: medium;
+  }
+  .visualScreen textarea 
+  {
+    font-size: larger;
+    height: 200px;
+  }
+  button 
+  {
+    width: 40px;
+    height: 40px;
+  }
+  button span 
+  {
+    font-size: 1.5em;
+    transform: translateY(2px);
+  }
+}

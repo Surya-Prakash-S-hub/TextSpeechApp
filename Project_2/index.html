@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>txt-to-speech and speech-to-text</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <nav>
+        <h1>Txt-Speech & Speech-Txt</h1>
+    </nav>
+
+    <main>
+        <div class="wrapper">
+            <h2>NEW APPLICATIONS FOR TXT TO SPEECH AND SPEECH TO TEXT RECOGNITION</h2>
+            <div class="visualScreen">
+                <textarea name="textValue" id="text" placeholder="Please speack in the mic or type here..."></textarea>
+                <div class="clearScreen"><button class="clearBtn" id="ClearValue">clear</button></div>
+            </div>
+            <div class="methods">
+                <div class="speechToText SelectMethod">
+                    <select id="langSelect">
+                        <option value="en-US">English</option>
+                        <option value="fr-FR">French</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="zh-CN">Chinese</option>
+                    </select>
+                    <div class="btnSelection">
+                        <button id="startRec" class="appBtn" style="--bgclr:36, 255, 36"><span><i
+                                    class="fa fa-microphone" aria-hidden="true"></i></span></button>
+                        <button id="stopRec" class="appBtn" style="--bgclr:255, 33, 33"><span><i
+                                    class="fa fa-microphone-slash" aria-hidden="true"></i></span></button>
+                    </div>
+                    <div class="iconForSpeech"></div>
+                </div>
+                <div class="textToSpeech SelectMethod">
+                    <select name="voice" id="voicesettings"></select>
+                    <select id="langsettings">
+                        <option value="en-US">English</option>
+                        <option value="fr-FR">French</option>
+                        <option value="es-ES">Spanish</option>
+                        <option value="hi-IN">Hindi</option>
+                        <option value="zh-CN">Chinese</option>
+                    </select>
+                    <div class="btnSelection">
+                        <button id="startSpeech" class="appBtn" style="--bgclr:95, 212, 252"><span><i class="fa fa-play"
+                                    aria-hidden="true"></i></span></button>
+                        <button id="pauseSpeech" class="appBtn" style="--bgclr:255, 166, 0"><span><i class="fa fa-pause"
+                                    aria-hidden="true"></i></span></button>
+                        <button id="stopSpeech" class="appBtn" style="--bgclr:255, 33, 33"><span><i class="fa fa-stop"
+                                    aria-hidden="true"></i></span></button>
+                    </div>
+                    <div class="iconForText"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; all rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
